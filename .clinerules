@@ -1,0 +1,52 @@
+# Reglas de Codificación y Comportamiento del Proyecto
+
+## Contexto del Proyecto
+Este es un proyecto educativo de PHP (UF1844) llamado **Biblioteca PHP** con base de datos relacional MySQL/MariaDB.
+* La estructura del proyecto está organizada modularmente en subcarpetas: `config/` (base de datos), `css/` (hojas de estilo), `libros/`, `usuarios/` y `prestamos/`.
+* La conexión a la base de datos se gestiona centralizadamente en `config/conexion.php` usando la extensión `mysqli` con la variable `$conexion`.
+* Los estilos CSS del sitio se centralizan en `css/estilos.css`.
+* El archivo `index.php` actúa como el Panel de Control (Dashboard) principal en la raíz, y enlaza a las vistas dentro de los subdirectorios:
+  * `libros/listar_libros.php`: Listado completo de libros con opciones de modificar/eliminar.
+  * `libros/añadir_libro.php`: Formulario vertical para registrar un nuevo libro.
+  * `libros/procesar_libro.php`: Lógica y validación de inserción de libros (comprobación de campos e ISBN único).
+  * `libros/modificar_libro.php`: Formulario vertical para editar datos de un libro existente.
+  * `libros/procesar_modificar_libro.php`: Lógica y validación para actualizar un libro.
+  * `libros/eliminar_libro.php`: Lógica de eliminación de libro validando que no tenga dependencias.
+  * `libros/libros_genero.php`: Listado de libros filtrados por género.
+  * `libros/ranking_libros.php`: Libros ordenados por su popularidad (conteo de préstamos).
+  * `libros/buscar_libros.php`: Búsqueda de libros por coincidencia en título o autor.
+  * `usuarios/listar_usuarios.php`: Listado completo de usuarios con opciones de modificar/eliminar.
+  * `usuarios/añadir_usuario.php`: Formulario vertical para registrar un nuevo usuario.
+  * `usuarios/procesar_usuario.php`: Lógica y validación de registro de usuarios (comprobación de campos e email único).
+  * `usuarios/modificar_usuario.php`: Formulario vertical para editar datos de un usuario existente.
+  * `usuarios/procesar_modificar_usuario.php`: Lógica y validación para actualizar un usuario.
+  * `usuarios/eliminar_usuario.php`: Lógica de eliminación de usuario validando que no tenga dependencias.
+  * `usuarios/usuarios_recientes.php`: Usuarios ordenados por fecha de alta (más recientes primero).
+  * `prestamos/listar_prestamos.php`: Historial de todos los préstamos con opción de devolución.
+  * `prestamos/añadir_prestamo.php`: Formulario vertical para registrar un nuevo préstamo de libro disponible.
+  * `prestamos/procesar_prestamo.php`: Lógica, validación y confirmación del préstamo.
+  * `prestamos/devolver_libro.php`: Lógica de devolución de libros (marca préstamo como devuelto y registra fecha de devolución).
+  * `prestamos/prestamos_activos.php`: Préstamos activos pendientes de devolución con opción de devolver.
+  * `prestamos/buscar_prestamos.php`: Búsqueda de préstamos filtrando por nombre o apellido del usuario.
+  * `prestamos/prestamos_por_usuario.php`: Cantidad de préstamos acumulados por cada usuario.
+
+## Reglas de Interacción y Confirmación Obligatoria (CRÍTICO)
+1. **Mostrar Cambios Antes de Aplicar**: Antes de realizar cualquier edición o creación de archivos en el proyecto, debes presentar al usuario un resumen detallado y el código propuesto (o un diff claro) a través del chat.
+2. **Solicitar Confirmación Explicita**: No apliques ningún cambio ni modifiques ningún archivo de forma automática. Siempre pide confirmación directa al usuario y espera a su aprobación antes de usar herramientas de escritura/edición (`write_to_file`, `replace_file_content`, `multi_replace_file_content`, etc.).
+3. **Revisar el Estado del Proyecto**: Antes de responder a cualquier pregunta o solicitud, debes revisar activamente el estado actual del proyecto y el contenido de los archivos relevantes (usando herramientas de lectura como `list_dir` o `view_file`) para evitar asumir estados basados únicamente en interacciones previas.
+
+## Directrices de Desarrollo y Código
+* **Arquitectura Modular**: Mantén el orden organizando archivos en carpetas según su entidad (`libros/`, `usuarios/`, `prestamos/`). Cada archivo PHP maneja su propia estructura HTML básica e incluye `../config/conexion.php` para interactuar con la base de datos, y enlaza a `../css/estilos.css` para los estilos.
+* **Uso de Conexión**: La base de datos debe ser referenciada exclusivamente importando `../config/conexion.php` con `include` o `require` y usando la variable `$conexion` (o `config/conexion.php` si es desde el `index.php` raíz). Asegúrate de cerrar la conexión con `mysqli_close($conexion)` al final del script.
+* **Formularios e Inputs**:
+  * Los formularios de búsqueda simple o filtros se maquetan en línea (flex).
+  * Los formularios de creación o modificación de datos (que contienen etiquetas `<label>`) deben maquetarse en bloque vertical y centrado mediante la clase condicional `form:has(label)` definida en los estilos.
+* **Mensajes de Feedback y Páginas de Procesamiento**:
+  * Los scripts de procesado PHP deben retornar páginas HTML estructuradas completas que importen el archivo de estilos en su nueva ruta.
+  * Toda la interfaz de respuesta se debe envolver en un bloque de clase `.feedback-container`.
+  * Usa `.alerta` para errores o advertencias (tonos terracota) y `.alerta-exito` para operaciones exitosas (tonos verde salvia), junto a enlaces de redirección que usen la clase `.boton`.
+* **Seguridad y Validación**:
+  * Valida y sanitiza siempre los datos recibidos mediante `GET` o `POST` para evitar avisos de PHP (por ejemplo, con `isset()`, `??` o valores predeterminados).
+  * **Seguridad SQL**: Escapa las variables antes de concatenarlas en consultas SQL usando `mysqli_real_escape_string($conexion, ...)` o sentencias preparadas para prevenir inyecciones SQL.
+  * **Escape de Salidas**: Usa `htmlspecialchars()` al imprimir contenido dinámico en el HTML para evitar ataques XSS.
+* **Estilo y Diseño**: Los nuevos elementos de interfaz deben integrarse utilizando las clases estéticas existentes en `css/estilos.css` (como `.card`, `.dashboard-grid`, `.table-container`, `.badge`, `.volver`, etc.). Todas las páginas deben mantener un enlace para regresar al panel principal con la clase `.volver` apuntando a `../index.php` (o `index.php` si es desde la raíz).
