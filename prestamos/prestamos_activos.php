@@ -1,4 +1,6 @@
 <?php
+include_once "../auth/auth_helper.php";
+$logeado = esta_logeado();
 include "../config/conexion.php";
 
 $sql = "SELECT 
@@ -39,7 +41,9 @@ $resultado = mysqli_stmt_get_result($stmt);
                     <th>Fecha Préstamo</th>
                     <th>Fecha Prevista de Devolución</th>
                     <th>Estado</th>
-                    <th style="text-align: center;">Acción</th>
+                    <?php if ($logeado): ?>
+                        <th style="text-align: center;">Acción</th>
+                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
@@ -52,9 +56,11 @@ $resultado = mysqli_stmt_get_result($stmt);
                         <td>
                             <span class="badge badge-pendiente">Pendiente</span>
                         </td>
-                        <td style="text-align: center;">
-                            <a class="btn-tabla btn-devolver" href="devolver_libro.php?id=<?php echo $prestamo['id_prestamo']; ?>" onclick="return confirm('¿Confirmar la devolución de este libro?');">Devolver</a>
-                        </td>
+                        <?php if ($logeado): ?>
+                            <td style="text-align: center;">
+                                <a class="btn-tabla btn-devolver" href="devolver_libro.php?id=<?php echo $prestamo['id_prestamo']; ?>" onclick="return confirm('¿Confirmar la devolución de este libro?');">Devolver</a>
+                            </td>
+                        <?php endif; ?>
                     </tr>
                 <?php } ?>
             </tbody>

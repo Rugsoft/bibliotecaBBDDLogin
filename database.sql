@@ -65,3 +65,19 @@ VALUES
 (2, 3, '2026-03-05', NULL, 0),
 (3, 5, '2026-03-10', NULL, 0),
 (1, 1, '2026-03-12', '2026-03-25', 1);
+
+-- 4. Tabla de Administradores
+CREATE TABLE IF NOT EXISTS administradores (
+    id_admin INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    nombre VARCHAR(80) NOT NULL,
+    apellidos VARCHAR(120) NOT NULL,
+    email VARCHAR(120) NOT NULL UNIQUE,
+    fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Administrador por defecto (Usuario: admin, Contraseña: admin123)
+INSERT INTO administradores (username, password_hash, nombre, apellidos, email)
+VALUES ('admin', '$2y$10$Cn8XOEt695xBDEPXpquUre/t/qJtmzgsUn.i9ARVeCP2prIPcEgiK', 'Administrador', 'Biblioteca', 'admin@biblioteca.com')
+ON DUPLICATE KEY UPDATE id_admin=id_admin;

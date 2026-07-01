@@ -1,3 +1,7 @@
+<?php
+include_once "auth/auth_helper.php";
+$logeado = esta_logeado();
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -9,6 +13,17 @@
 </head>
 
 <body>
+    <!-- Barra de autenticación superior -->
+    <div style="display: flex; justify-content: flex-end; align-items: center; gap: 15px; margin-bottom: 20px; background-color: var(--card-bg); padding: 12px 24px; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+        <?php if ($logeado): ?>
+            <span style="font-size: 1.05rem;">Conectado como: <strong><?php echo htmlspecialchars($_SESSION['admin_nombre']); ?></strong></span>
+            <a class="boton" href="auth/logout.php" style="padding: 6px 14px; font-size: 0.8rem;">Cerrar Sesión</a>
+        <?php else: ?>
+            <span style="font-size: 1.05rem; color: var(--text-muted);">Acceso de invitado (Lectura)</span>
+            <a class="boton" href="auth/login.php" style="padding: 6px 14px; font-size: 0.8rem;">Iniciar Sesión</a>
+        <?php endif; ?>
+    </div>
+
     <h1>Panel de Control de la Biblioteca</h1>
     <p>Administración y consultas de la base de datos relacional de usuarios, catálogo e historial de préstamos.</p>
 
@@ -19,10 +34,17 @@
             <h3>Catálogo Completo</h3>
             <p>Visualizar el listado general de libros, con opciones para modificar y eliminar ejemplares.</p>
         </a>
-        <a href="libros/añadir_libro.php" class="card">
-            <h3>Añadir Nuevo Libro</h3>
-            <p>Agregar un nuevo ejemplar al inventario especificando título, autor, ISBN y paginación.</p>
-        </a>
+        <?php if ($logeado): ?>
+            <a href="libros/añadir_libro.php" class="card">
+                <h3>Añadir Nuevo Libro</h3>
+                <p>Agregar un nuevo ejemplar al inventario especificando título, autor, ISBN y paginación.</p>
+            </a>
+        <?php else: ?>
+            <a href="auth/login.php" class="card locked-card">
+                <h3>Añadir Nuevo Libro <span style="font-size:0.9rem; color:var(--accent-color);">🔒</span></h3>
+                <p>Permite registrar nuevos libros. Requiere iniciar sesión como administrador.</p>
+            </a>
+        <?php endif; ?>
         <a href="libros/buscar_libros.php" class="card">
             <h3>Buscar Libros (Ej. 4)</h3>
             <p>Buscador interactivo de ejemplares por título o nombre del autor.</p>
@@ -44,10 +66,17 @@
             <h3>Listado de Usuarios</h3>
             <p>Ver todas las personas dadas de alta en el sistema, con opciones de edición y baja.</p>
         </a>
-        <a href="usuarios/añadir_usuario.php" class="card">
-            <h3>Añadir Nuevo Usuario</h3>
-            <p>Registrar un nuevo lector en el sistema guardando su contacto y fecha de alta.</p>
-        </a>
+        <?php if ($logeado): ?>
+            <a href="usuarios/añadir_usuario.php" class="card">
+                <h3>Añadir Nuevo Usuario</h3>
+                <p>Registrar un nuevo lector en el sistema guardando su contacto y fecha de alta.</p>
+            </a>
+        <?php else: ?>
+            <a href="auth/login.php" class="card locked-card">
+                <h3>Añadir Nuevo Usuario <span style="font-size:0.9rem; color:var(--accent-color);">🔒</span></h3>
+                <p>Permite registrar nuevos lectores. Requiere iniciar sesión como administrador.</p>
+            </a>
+        <?php endif; ?>
         <a href="usuarios/usuarios_recientes.php" class="card">
             <h3>Usuarios Recientes (Ej. 2)</h3>
             <p>Consultar los últimos usuarios registrados ordenados de forma cronológica.</p>
@@ -61,10 +90,17 @@
     <!-- 3. GESTIÓN DE PRÉSTAMOS -->
     <h2 class="section-title">Gestión de Préstamos</h2>
     <div class="dashboard-grid">
-        <a href="prestamos/añadir_prestamo.php" class="card">
-            <h3>Registrar Préstamo</h3>
-            <p>Registrar la salida de un libro disponible de la biblioteca a nombre de un lector.</p>
-        </a>
+        <?php if ($logeado): ?>
+            <a href="prestamos/añadir_prestamo.php" class="card">
+                <h3>Registrar Préstamo</h3>
+                <p>Registrar la salida de un libro disponible de la biblioteca a nombre de un lector.</p>
+            </a>
+        <?php else: ?>
+            <a href="auth/login.php" class="card locked-card">
+                <h3>Registrar Préstamo <span style="font-size:0.9rem; color:var(--accent-color);">🔒</span></h3>
+                <p>Permite registrar préstamos de libros. Requiere iniciar sesión como administrador.</p>
+            </a>
+        <?php endif; ?>
         <a href="prestamos/listar_prestamos.php" class="card">
             <h3>Historial General</h3>
             <p>Listado histórico de todas las transacciones de préstamo y sus fechas asociadas.</p>

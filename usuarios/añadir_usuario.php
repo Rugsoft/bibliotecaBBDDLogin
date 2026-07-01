@@ -1,3 +1,7 @@
+<?php
+include_once "../auth/auth_helper.php";
+requerir_login();
+?>
 <!DOCTYPE html>
 <html lang="es">
 

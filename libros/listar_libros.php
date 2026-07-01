@@ -1,4 +1,6 @@
 <?php
+include_once "../auth/auth_helper.php";
+$logeado = esta_logeado();
 include "../config/conexion.php";
 
 $sql = "SELECT * FROM libros";
@@ -28,7 +30,9 @@ $resultado = mysqli_stmt_get_result($stmt);
                     <th>Año</th>
                     <th>Género</th>
                     <th>Páginas</th>
-                    <th style="text-align: center;">Acciones</th>
+                    <?php if ($logeado): ?>
+                        <th style="text-align: center;">Acciones</th>
+                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
@@ -40,10 +44,12 @@ $resultado = mysqli_stmt_get_result($stmt);
                         <td><?php echo htmlspecialchars($libro["año"]); ?></td>
                         <td><?php echo htmlspecialchars($libro["genero"]); ?></td>
                         <td><?php echo htmlspecialchars($libro["paginas"]); ?></td>
-                        <td style="text-align: center; white-space: nowrap;">
-                            <a class="btn-tabla btn-modificar" href="modificar_libro.php?id=<?php echo $libro['id_libro']; ?>">Modificar</a>
-                            <a class="btn-tabla btn-eliminar" href="eliminar_libro.php?id=<?php echo $libro['id_libro']; ?>" onclick="return confirm('¿Estás seguro de que deseas eliminar este libro?');">Eliminar</a>
-                        </td>
+                        <?php if ($logeado): ?>
+                            <td style="text-align: center; white-space: nowrap;">
+                                <a class="btn-tabla btn-modificar" href="modificar_libro.php?id=<?php echo $libro['id_libro']; ?>">Modificar</a>
+                                <a class="btn-tabla btn-eliminar" href="eliminar_libro.php?id=<?php echo $libro['id_libro']; ?>" onclick="return confirm('¿Estás seguro de que deseas eliminar este libro?');">Eliminar</a>
+                            </td>
+                        <?php endif; ?>
                     </tr>
                 <?php } ?>
             </tbody>

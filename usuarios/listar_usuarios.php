@@ -1,4 +1,6 @@
 <?php
+include_once "../auth/auth_helper.php";
+$logeado = esta_logeado();
 include "../config/conexion.php";
 
 $sql = "SELECT * FROM usuarios";
@@ -28,7 +30,9 @@ $resultado = mysqli_stmt_get_result($stmt);
                     <th>Email</th>
                     <th>Teléfono</th>
                     <th>Fecha de Alta</th>
-                    <th style="text-align: center;">Acciones</th>
+                    <?php if ($logeado): ?>
+                        <th style="text-align: center;">Acciones</th>
+                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
@@ -40,10 +44,12 @@ $resultado = mysqli_stmt_get_result($stmt);
                         <td><?php echo htmlspecialchars($usuario["email"]); ?></td>
                         <td><?php echo htmlspecialchars($usuario["telefono"] ? $usuario["telefono"] : '-'); ?></td>
                         <td><?php echo htmlspecialchars($usuario["fecha_alta"]); ?></td>
-                        <td style="text-align: center; white-space: nowrap;">
-                            <a class="btn-tabla btn-modificar" href="modificar_usuario.php?id=<?php echo $usuario['id_usuario']; ?>">Modificar</a>
-                            <a class="btn-tabla btn-eliminar" href="eliminar_usuario.php?id=<?php echo $usuario['id_usuario']; ?>" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">Eliminar</a>
-                        </td>
+                        <?php if ($logeado): ?>
+                            <td style="text-align: center; white-space: nowrap;">
+                                <a class="btn-tabla btn-modificar" href="modificar_usuario.php?id=<?php echo $usuario['id_usuario']; ?>">Modificar</a>
+                                <a class="btn-tabla btn-eliminar" href="eliminar_usuario.php?id=<?php echo $usuario['id_usuario']; ?>" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">Eliminar</a>
+                            </td>
+                        <?php endif; ?>
                     </tr>
                 <?php } ?>
             </tbody>

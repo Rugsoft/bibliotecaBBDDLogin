@@ -1,4 +1,6 @@
 <?php
+include_once "../auth/auth_helper.php";
+$logeado = esta_logeado();
 include "../config/conexion.php";
 
 $sql = "SELECT 
@@ -40,7 +42,9 @@ $resultado = mysqli_stmt_get_result($stmt);
                     <th>Fecha Préstamo</th>
                     <th>Fecha Devolución</th>
                     <th>Estado</th>
-                    <th style="text-align: center;">Acción</th>
+                    <?php if ($logeado): ?>
+                        <th style="text-align: center;">Acción</th>
+                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
@@ -58,13 +62,15 @@ $resultado = mysqli_stmt_get_result($stmt);
                                 <span class="badge badge-pendiente">Pendiente</span>
                             <?php } ?>
                         </td>
-                        <td style="text-align: center; white-space: nowrap;">
-                            <?php if ($prestamo["devuelto"] == 0) { ?>
-                                <a class="btn-tabla btn-devolver" href="devolver_libro.php?id=<?php echo $prestamo['id_prestamo']; ?>" onclick="return confirm('¿Confirmar la devolución de este libro?');">Devolver</a>
-                            <?php } else { ?>
-                                <span style="color: var(--text-muted); font-size: 0.95rem;">-</span>
-                            <?php } ?>
-                        </td>
+                        <?php if ($logeado): ?>
+                            <td style="text-align: center; white-space: nowrap;">
+                                <?php if ($prestamo["devuelto"] == 0) { ?>
+                                    <a class="btn-tabla btn-devolver" href="devolver_libro.php?id=<?php echo $prestamo['id_prestamo']; ?>" onclick="return confirm('¿Confirmar la devolución de este libro?');">Devolver</a>
+                                <?php } else { ?>
+                                    <span style="color: var(--text-muted); font-size: 0.95rem;">-</span>
+                                <?php } ?>
+                            </td>
+                        <?php endif; ?>
                     </tr>
                 <?php } ?>
             </tbody>

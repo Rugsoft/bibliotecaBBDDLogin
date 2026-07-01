@@ -1,4 +1,6 @@
 <?php
+include_once "../auth/auth_helper.php";
+requerir_login();
 require_once "../config/conexion.php";
 
 $id_libro = trim($_POST["id_libro"] ?? "");
