@@ -37,6 +37,15 @@ if ($id != "") {
         <form action="procesar_modificar_usuario.php" method="POST">
             <input type="hidden" name="id_usuario" value="<?php echo htmlspecialchars($usuario['id_usuario']); ?>">
 
+            <label for="username">Nombre de usuario (Username):</label>
+            <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($usuario['username'] ?? ''); ?>" required>
+
+            <label for="password">Nueva Contraseña (dejar en blanco para conservar la actual):</label>
+            <input type="password" id="password" name="password">
+
+            <label for="confirm_password">Confirmar Nueva Contraseña:</label>
+            <input type="password" id="confirm_password" name="confirm_password">
+
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($usuario['nombre']); ?>" required>
 

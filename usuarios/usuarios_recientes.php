@@ -25,6 +25,7 @@ $resultado = mysqli_stmt_get_result($stmt);
                 <tr>
                     <th>Fecha Alta</th>
                     <th>ID Usuario</th>
+                    <th>Username</th>
                     <th>Nombre</th>
                     <th>Apellidos</th>
                     <th>Email</th>
@@ -36,6 +37,7 @@ $resultado = mysqli_stmt_get_result($stmt);
                     <tr>
                         <td><strong><?php echo htmlspecialchars($usuario["fecha_alta"]); ?></strong></td>
                         <td><?php echo htmlspecialchars($usuario["id_usuario"]); ?></td>
+                        <td><strong><?php echo htmlspecialchars($usuario["username"] ?? '-'); ?></strong></td>
                         <td><?php echo htmlspecialchars($usuario["nombre"]); ?></td>
                         <td><?php echo htmlspecialchars($usuario["apellidos"]); ?></td>
                         <td><?php echo htmlspecialchars($usuario["email"]); ?></td>

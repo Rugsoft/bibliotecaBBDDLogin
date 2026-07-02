@@ -23,6 +23,7 @@ $resultado = mysqli_stmt_get_result($stmt);
             <thead>
                 <tr>
                     <th>ID Usuario</th>
+                    <th>Username</th>
                     <th>Nombre</th>
                     <th>Apellidos</th>
                     <th>Email</th>
@@ -35,6 +36,7 @@ $resultado = mysqli_stmt_get_result($stmt);
                 <?php while ($usuario = mysqli_fetch_assoc($resultado)) { ?>
                     <tr>
                         <td><?php echo htmlspecialchars($usuario["id_usuario"]); ?></td>
+                        <td><strong><?php echo htmlspecialchars($usuario["username"] ?? '-'); ?></strong></td>
                         <td><?php echo htmlspecialchars($usuario["nombre"]); ?></td>
                         <td><?php echo htmlspecialchars($usuario["apellidos"]); ?></td>
                         <td><?php echo htmlspecialchars($usuario["email"]); ?></td>

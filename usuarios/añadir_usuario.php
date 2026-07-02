@@ -13,6 +13,15 @@
     <p>Formulario para agregar un nuevo usuario al sistema de la biblioteca.</p>
 
     <form action="procesar_usuario.php" method="POST">
+        <label for="username">Nombre de usuario (Username):</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="confirm_password">Confirmar Contraseña:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required>
 
