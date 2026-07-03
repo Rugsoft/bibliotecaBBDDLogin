@@ -1,5 +1,8 @@
 <?php
 include "../config/conexion.php";
+define('BASE_PATH', '../');
+require_once "../includes/auth.php";
+requerir_login();
 
 // 1. Obtener todos los géneros únicos para el selector dropdown
 $gen_sql = "SELECT DISTINCT genero FROM libros";

@@ -1,5 +1,8 @@
 <?php
 require_once "../config/conexion.php";
+define('BASE_PATH', '../');
+require_once "../includes/auth.php";
+requerir_admin();
 
 $id_libro = trim($_POST["id_libro"] ?? "");
 $isbn = trim($_POST["isbn"] ?? "");

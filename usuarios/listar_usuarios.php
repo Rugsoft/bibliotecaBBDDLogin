@@ -1,5 +1,8 @@
 <?php
 include "../config/conexion.php";
+define('BASE_PATH', '../');
+require_once "../includes/auth.php";
+requerir_admin();
 
 $sql = "SELECT * FROM usuarios";
 $stmt = mysqli_prepare($conexion, $sql);

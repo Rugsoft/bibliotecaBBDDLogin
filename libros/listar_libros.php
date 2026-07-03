@@ -1,5 +1,8 @@
 <?php
 include "../config/conexion.php";
+define('BASE_PATH', '../');
+require_once "../includes/auth.php";
+requerir_login();
 
 $sql = "SELECT * FROM libros";
 $stmt = mysqli_prepare($conexion, $sql);
@@ -41,8 +44,12 @@ $resultado = mysqli_stmt_get_result($stmt);
                         <td><?php echo htmlspecialchars($libro["genero"]); ?></td>
                         <td><?php echo htmlspecialchars($libro["paginas"]); ?></td>
                         <td style="text-align: center; white-space: nowrap;">
-                            <a class="btn-tabla btn-modificar" href="modificar_libro.php?id=<?php echo $libro['id_libro']; ?>">Modificar</a>
-                            <a class="btn-tabla btn-eliminar" href="eliminar_libro.php?id=<?php echo $libro['id_libro']; ?>" onclick="return confirm('¿Estás seguro de que deseas eliminar este libro?');">Eliminar</a>
+                            <?php if (($_SESSION['rol'] ?? '') === 'admin'): ?>
+                                <a class="btn-tabla btn-modificar" href="modificar_libro.php?id=<?php echo $libro['id_libro']; ?>">Modificar</a>
+                                <a class="btn-tabla btn-eliminar" href="eliminar_libro.php?id=<?php echo $libro['id_libro']; ?>" onclick="return confirm('¿Estás seguro de que deseas eliminar este libro?');">Eliminar</a>
+                            <?php else: ?>
+                                <span style="color: var(--text-muted); font-size: 0.95rem;">Solo admin</span>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php } ?>

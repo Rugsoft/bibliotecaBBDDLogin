@@ -1,5 +1,8 @@
 <?php
 require_once "../config/conexion.php";
+define('BASE_PATH', '../');
+require_once "../includes/auth.php";
+requerir_admin();
 
 // 1. Obtener todos los usuarios
 $sqlUsuarios = "SELECT id_usuario, nombre, apellidos FROM usuarios ORDER BY nombre, apellidos ASC";

@@ -1,5 +1,8 @@
 <?php
 include "../config/conexion.php";
+define('BASE_PATH', '../');
+require_once "../includes/auth.php";
+requerir_login();
 
 $sql = "SELECT 
     prestamos.id_prestamo,
@@ -60,7 +63,11 @@ $resultado = mysqli_stmt_get_result($stmt);
                         </td>
                         <td style="text-align: center; white-space: nowrap;">
                             <?php if ($prestamo["devuelto"] == 0) { ?>
-                                <a class="btn-tabla btn-devolver" href="devolver_libro.php?id=<?php echo $prestamo['id_prestamo']; ?>" onclick="return confirm('¿Confirmar la devolución de este libro?');">Devolver</a>
+                                <?php if (($_SESSION['rol'] ?? '') === 'admin'): ?>
+                                    <a class="btn-tabla btn-devolver" href="devolver_libro.php?id=<?php echo $prestamo['id_prestamo']; ?>" onclick="return confirm('¿Confirmar la devolución de este libro?');">Devolver</a>
+                                <?php else: ?>
+                                    <span style="color: var(--text-muted); font-size: 0.95rem;">Solo admin</span>
+                                <?php endif; ?>
                             <?php } else { ?>
                                 <span style="color: var(--text-muted); font-size: 0.95rem;">-</span>
                             <?php } ?>

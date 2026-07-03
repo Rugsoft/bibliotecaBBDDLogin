@@ -1,3 +1,8 @@
+<?php
+define('BASE_PATH', '');
+require_once "includes/auth.php";
+requerir_login();
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -9,6 +14,7 @@
 </head>
 
 <body>
+    <?php require_once "includes/cabecera_logout.php"; pintar_cabecera_sesion(); ?>
     <h1>Panel de Control de la Biblioteca</h1>
     <p>Administración y consultas de la base de datos relacional de usuarios, catálogo e historial de préstamos.</p>
 

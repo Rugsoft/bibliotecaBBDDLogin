@@ -1,5 +1,8 @@
 <?php
 include "../config/conexion.php";
+define('BASE_PATH', '../');
+require_once "../includes/auth.php";
+requerir_login();
 
 // Consulta agregada para ordenar los libros por número de préstamos
 $sql = "SELECT 

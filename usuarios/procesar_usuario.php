@@ -1,4 +1,8 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+define('BASE_PATH', '../');
 require_once "../config/conexion.php";
 
 $username = trim($_POST["username"] ?? "");
@@ -9,6 +13,10 @@ $apellidos = trim($_POST["apellidos"] ?? "");
 $email = trim($_POST["email"] ?? "");
 $telefono = trim($_POST["telefono"] ?? "");
 $fecha_registro = date("Y-m-d");
+
+$autenticado_al_registrar = isset($_SESSION['autenticado']) && $_SESSION['autenticado'] === true;
+$url_post_registro_login    = $autenticado_al_registrar ? "../index.php" : "../login.php";
+$texto_post_registro_login  = $autenticado_al_registrar ? "Volver al inicio" : "Ir a iniciar sesión";
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -78,7 +86,7 @@ $fecha_registro = date("Y-m-d");
                     <div class="alerta-exito">
                         <p>El usuario "<strong><?php echo htmlspecialchars($nombre); ?> <?php echo htmlspecialchars($apellidos); ?></strong>" con username <strong><?php echo htmlspecialchars($username); ?></strong> ha sido registrado exitosamente en la biblioteca.</p>
                     </div>
-                    <a class="boton" href="../index.php">Volver al inicio</a>
+                    <a class="boton" href="<?php echo $url_post_registro_login; ?>"><?php echo $texto_post_registro_login; ?></a>
                 <?php else:
                     $error_db = mysqli_stmt_error($stmtInsertar);
                     mysqli_stmt_close($stmtInsertar);

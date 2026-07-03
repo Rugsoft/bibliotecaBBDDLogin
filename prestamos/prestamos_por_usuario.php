@@ -1,5 +1,8 @@
 <?php
 include "../config/conexion.php";
+define('BASE_PATH', '../');
+require_once "../includes/auth.php";
+requerir_login();
 
 // Consulta agregada relacional para contar préstamos por usuario
 $sql = "SELECT 

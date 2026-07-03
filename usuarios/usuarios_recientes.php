@@ -1,5 +1,8 @@
 <?php
 include "../config/conexion.php";
+define('BASE_PATH', '../');
+require_once "../includes/auth.php";
+requerir_login();
 
 // Consulta para ordenar usuarios del más reciente al más antiguo
 $sql = "SELECT * FROM usuarios ORDER BY fecha_alta DESC";

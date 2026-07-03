@@ -9,8 +9,21 @@
 </head>
 
 <body>
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once "../includes/auth.php";
+$autenticado = isset($_SESSION['autenticado']) && $_SESSION['autenticado'] === true;
+?>
     <h1>Añadir Nuevo Usuario</h1>
-    <p>Formulario para agregar un nuevo usuario al sistema de la biblioteca.</p>
+    <p>
+        <?php if (!$autenticado): ?>
+            Formulario para crear una cuenta nueva en la biblioteca (no necesitas iniciar sesión para registrarte).
+        <?php else: ?>
+            Formulario para agregar un nuevo usuario al sistema de la biblioteca.
+        <?php endif; ?>
+    </p>
 
     <form action="procesar_usuario.php" method="POST">
         <label for="username">Nombre de usuario (Username):</label>
@@ -37,7 +50,11 @@
         <button type="submit">Añadir Usuario</button>
     </form>
 
-    <a class="volver" href="../index.php">← Volver al inicio</a>
+    <?php if ($autenticado): ?>
+        <a class="volver" href="../index.php">← Volver al inicio</a>
+    <?php else: ?>
+        <a class="volver" href="../login.php">← Volver al inicio de sesión</a>
+    <?php endif; ?>
 
 </body>
 

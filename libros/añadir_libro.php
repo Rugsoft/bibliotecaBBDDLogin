@@ -9,6 +9,12 @@
 </head>
 
 <body>
+<?php
+require_once "../config/conexion.php";
+define('BASE_PATH', '../');
+require_once "../includes/auth.php";
+requerir_admin();
+?>
     <h1>Añadir Nuevo Libro</h1>
     <p>Formulario para agregar un nuevo libro al catálogo de la biblioteca.</p>
 

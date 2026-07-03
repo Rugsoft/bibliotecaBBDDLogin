@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-07-2026 a las 12:32:20
+-- Tiempo de generación: 03-07-2026 a las 13:29:21
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,33 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `biblioteca-profe`
 --
-CREATE DATABASE IF NOT EXISTS `biblioteca-profe` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `biblioteca-profe`;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `administradores`
---
-
-CREATE TABLE `administradores` (
-  `id_admin` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `password_hash` varchar(255) NOT NULL,
-  `nombre` varchar(80) NOT NULL,
-  `apellidos` varchar(120) NOT NULL,
-  `email` varchar(120) NOT NULL,
-  `rol` varchar(50) NOT NULL,
-  `fecha_alta` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `administradores`
---
-
-INSERT INTO `administradores` (`id_admin`, `username`, `password_hash`, `nombre`, `apellidos`, `email`, `rol`, `fecha_alta`) VALUES
-(1, 'admin', '$2y$10$Cn8XOEt695xBDEPXpquUre/t/qJtmzgsUn.i9ARVeCP2prIPcEgiK', 'Administrador', 'Biblioteca', 'admin@biblioteca.com', 'Administrador', '2026-07-01 11:54:33'),
-(2, 'Rugsoft', '$2y$10$rbU0Nz1MaFvo6aMcYAjitO80GN7qHy2BU3PlymkKlw981iNSinUqm', 'César', 'Casas Insa', 'futuroelectronico@gmail.com', 'Bibliotecario', '2026-07-01 12:03:27');
 
 -- --------------------------------------------------------
 
@@ -115,9 +88,12 @@ INSERT INTO `prestamos` (`id_prestamo`, `id_usuario`, `id_libro`, `fecha_prestam
 (3, 3, 2, '2026-03-10', '2026-06-30', 1),
 (4, 1, 10, '2026-03-12', '2026-03-25', 1),
 (5, 5, 12, '2026-06-29', '2026-06-30', 1),
-(6, 5, 8, '2026-06-29', NULL, 0),
-(7, 7, 19, '2026-06-30', NULL, 0),
-(8, 7, 21, '2026-06-30', '2026-07-01', 1);
+(6, 5, 8, '2026-06-29', '2026-07-02', 1),
+(7, 7, 19, '2026-06-30', '2026-07-02', 1),
+(8, 7, 21, '2026-06-30', '2026-07-01', 1),
+(9, 2, 5, '2026-07-02', NULL, 0),
+(10, 2, 3, '2026-07-02', NULL, 0),
+(11, 2, 12, '2026-07-02', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -133,6 +109,7 @@ CREATE TABLE `usuarios` (
   `apellidos` varchar(120) NOT NULL,
   `email` varchar(120) NOT NULL,
   `telefono` varchar(20) DEFAULT NULL,
+  `rol` varchar(35) NOT NULL DEFAULT 'lector',
   `fecha_alta` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -140,26 +117,18 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `username`, `password_hash`, `nombre`, `apellidos`, `email`, `telefono`, `fecha_alta`) VALUES
-(1, NULL, '', 'Laura', 'Martínez Ruiz', 'laura.martinez@email.com', '633212121', '2026-01-10'),
-(2, NULL, '', 'Carlos', 'Gómez Pérez', 'carlos.gomez@email.com', '600333444', '2026-01-15'),
-(3, NULL, '', 'Marta', 'Sánchez López', 'marta.sanchez@email.com', '600555666', '2026-02-01'),
-(4, NULL, '', 'David', 'Navarro Gil', 'david.navarro@email.com', '600777888', '2026-02-20'),
-(5, NULL, '', 'César', 'Casas Insa', 'futuroelectronico@gmail.com', '655234785', '2026-06-29'),
-(7, NULL, '', 'David', 'Cerbello Español', 'david@email.com', '699452123', '2026-06-30'),
-(8, NULL, '', 'Jorge', 'Casas Moya', 'jorge@gmail.com', '633147632', '2026-06-30');
+INSERT INTO `usuarios` (`id_usuario`, `username`, `password_hash`, `nombre`, `apellidos`, `email`, `telefono`, `rol`, `fecha_alta`) VALUES
+(1, 'Laurisky', '$2y$10$nDJ0/dEdXYJlbaSkV73.NOyjsFXtI.b0/UpFomT4ptS49NeXZ.MoO', 'Laura', 'Martínez Ruiz', 'laura.martinez@email.com', '633212121', 'lector', '2026-01-10'),
+(2, NULL, '', 'Carlos', 'Gómez Pérez', 'carlos.gomez@email.com', '600333444', 'lector', '2026-01-15'),
+(3, NULL, '', 'Marta', 'Sánchez López', 'marta.sanchez@email.com', '600555666', 'lector', '2026-02-01'),
+(4, NULL, '', 'David', 'Navarro Gil', 'david.navarro@email.com', '600777888', 'lector', '2026-02-20'),
+(5, NULL, '', 'César', 'Casas Insa', 'futuroelectronico@gmail.com', '655234785', 'lector', '2026-06-29'),
+(7, NULL, '', 'David', 'Cerbello Español', 'david@email.com', '699452123', 'lector', '2026-06-30'),
+(8, NULL, '', 'Jorge', 'Casas Moya', 'jorge@gmail.com', '633147632', 'lector', '2026-06-30');
 
 --
 -- Índices para tablas volcadas
 --
-
---
--- Indices de la tabla `administradores`
---
-ALTER TABLE `administradores`
-  ADD PRIMARY KEY (`id_admin`),
-  ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indices de la tabla `libros`
@@ -188,12 +157,6 @@ ALTER TABLE `usuarios`
 --
 
 --
--- AUTO_INCREMENT de la tabla `administradores`
---
-ALTER TABLE `administradores`
-  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT de la tabla `libros`
 --
 ALTER TABLE `libros`
@@ -203,13 +166,13 @@ ALTER TABLE `libros`
 -- AUTO_INCREMENT de la tabla `prestamos`
 --
 ALTER TABLE `prestamos`
-  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Restricciones para tablas volcadas
